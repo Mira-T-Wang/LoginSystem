@@ -1,0 +1,49 @@
+/* ── Dashboard Layout ── */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: #020818;
+  color: #ffffff;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+  /*max-width: 100%;*/
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.dashboard-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(129, 140, 248, 0.6);
+}
+
+.dashboard-welcome {
+  font-size: 13px;
+  color: #818cf8;
+  font-weight: 500;
+}
+
+.dashboard-loading {
+  color: #818cf8;
+  font-size: 15px;
+}
+
+.dashboard-error {
+  color: #e53e3e;
+  font-size: 15px;
+}
