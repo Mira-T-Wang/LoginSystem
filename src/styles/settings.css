@@ -1,0 +1,258 @@
+.settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 700px;
+}
+
+.settings-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(129, 140, 248, 0.6);
+  margin-bottom: 4px;
+}
+
+.settings-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+/* ── Settings Card ── */
+.settings-card {
+  background: rgba(10, 10, 40, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.settings-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(79, 70, 229, 0.2);
+}
+
+/* ── Profile ── */
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #818cf8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 0 0 24px rgba(79, 70, 229, 0.4);
+}
+
+.profile-avatar-letter {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.profile-info-row:last-child {
+  border-bottom: none;
+}
+
+.profile-info-label {
+  font-size: 13px;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+.profile-info-value {
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.profile-id {
+  font-family: monospace;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.profile-status-badge {
+  font-size: 12px;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* ── Billing ── */
+.billing-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 0;
+}
+
+.billing-icon {
+  font-size: 48px;
+}
+
+.billing-coming-soon {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.billing-description {
+  font-size: 13px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.billing-plan-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.billing-plan-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.billing-plan-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.billing-plan-desc {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.billing-plan-badge {
+  font-size: 12px;
+  color: #818cf8;
+  background: rgba(79, 70, 229, 0.15);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* ── Notification List ── */
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.notification-item-icon {
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(79, 70, 229, 0.1);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.notification-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.notification-item-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.notification-item-desc {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ── Toggle Switch ── */
+.toggle-switch {
+  width: 48px;
+  height: 26px;
+  border-radius: 13px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.3s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.toggle-switch.on {
+  background: #4f46e5;
+  box-shadow: 0 0 12px rgba(79, 70, 229, 0.4);
+}
+
+.toggle-switch.off {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: left 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-switch.on .toggle-knob {
+  left: 25px;
+}
+
+.toggle-switch.off .toggle-knob {
+  left: 3px;
+}

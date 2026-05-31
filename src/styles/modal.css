@@ -1,0 +1,307 @@
+/*.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  overflow: hidden;
+}*/
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;        /* ← raised so it clears sidebar z-index */
+  backdrop-filter: blur(4px);
+  /* remove overflow: hidden — it clips the modal box */
+}
+
+.modal-box {
+  background: #0d0d2b;
+  border: 1px solid rgba(79, 70, 229, 0.4);
+  border-radius: 16px;
+  padding: 32px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 0 60px rgba(79, 70, 229, 0.3);
+  position: relative;
+  z-index: 1001;
+}
+
+.product-modal-box {
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.product-modal-box {
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #ffffff;
+}
+
+/* ── Modal Actions ── */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.cancel-button {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  color: #9ca3af;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.delete-confirm-button {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-confirm-button:hover {
+  background: #e53e3e;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(229, 62, 62, 0.4);
+}
+
+/* ── Modal Input ── */
+.modal-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+  border-radius: 8px;
+  font-size: 14px;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.modal-input::placeholder {
+  color: #4b5563;
+}
+
+.modal-input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 12px rgba(79, 70, 229, 0.2);
+}
+
+.modal-select option {
+  background: #0d0d2b;
+  color: #ffffff;
+}
+
+.modal-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+/* ── Delete Warning ── */
+.delete-warning {
+  text-align: center;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.delete-warning-icon {
+  font-size: 36px;
+}
+
+.delete-warning-text {
+  font-size: 15px;
+  color: #d1d5db;
+  font-weight: 500;
+}
+
+.delete-warning-email {
+  font-size: 14px;
+  color: #818cf8;
+  font-weight: 600;
+}
+
+.delete-warning-note {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ── Image Dropzone ── */
+.image-dropzone {
+  width: 100%;
+  height: 160px;
+  border: 2px dashed rgba(79, 70, 229, 0.4);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: rgba(79, 70, 229, 0.05);
+  overflow: hidden;
+  position: relative;
+}
+
+.image-dropzone:hover {
+  border-color: #4f46e5;
+  background: rgba(79, 70, 229, 0.1);
+}
+
+.image-dropzone.drag-over {
+  border-color: #818cf8;
+  background: rgba(79, 70, 229, 0.15);
+  transform: scale(1.01);
+}
+
+.image-dropzone.has-image {
+  border-style: solid;
+  height: 180px;
+}
+
+.dropzone-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.dropzone-icon {
+  font-size: 36px;
+}
+
+.dropzone-text {
+  font-size: 14px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.dropzone-subtext {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.dropzone-hint {
+  font-size: 11px;
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+.image-preview-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-preview-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.image-preview-overlay span {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.image-dropzone:hover .image-preview-overlay {
+  opacity: 1;
+}
+
+/* ── Field Warning ── */
+.field-warning {
+  font-size: 12px;
+  color: #f87171;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.field-warning::before {
+  content: "⚠";
+  font-size: 11px;
+}
+
+.input-error {
+  border-color: #f87171 !important;
+  box-shadow: 0 0 8px rgba(248, 113, 113, 0.2) !important;
+}
