@@ -4,10 +4,23 @@ const Product = require("../models/Product");
 const User = require("../models/User");
 const Order = require("../models/Order");
 const DailySales = require("../models/DailySales");
+const redis = require("../db/redis");
+const CACHE_KEY = "stats:dashboard";// keyname
+const CACHE_TTL = 60; // in seconds, auto delete after 
 
 router.get("/", async (req, res) => {
   try {
-    // Stat cards — lightweight countDocuments calls
+
+    // check redis first 
+     const cached = await redis.get(CACHE_KEY);
+    if (cached) {
+      console.log("Stats served from Redis cache");
+      return res.status(200).json(JSON.parse(cached));
+    }
+
+    console.log("Stats cache miss — querying MongoDB");
+    
+    // original query logic if redis missed 
     const totalProducts = await Product.countDocuments();
     const totalUsers = await User.countDocuments();
 
@@ -22,7 +35,7 @@ router.get("/", async (req, res) => {
     ]);
     const totalRevenue = revenueResult.length > 0 ? revenueResult[0].total : 0;
 
-    // Graph data — read from DailySales materialized view
+    // Graph data — read from DailySales 
     const last7Days = [];
     for (let i = 6; i >= 0; i--) {
       const date = new Date();
@@ -44,14 +57,17 @@ router.get("/", async (req, res) => {
       };
     });
 
-    return res.status(200).json({
+    const responseData = {
       totalProducts,
       totalUsers,
       soldProducts,
       totalRevenue,
       graphData,
-    });
+    };
 
+    // store in redis to check next time 
+    await redis.set(CACHE_KEY,JSON.stringify(responseData),"EX",CACHE_TTL);//saves result
+    return res.status(200).json(responseData);
   } catch (err) {
     console.error("Stats error:", err.message);
     return res.status(500).json({ message: "Server error." });
