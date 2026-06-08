@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
@@ -175,6 +176,19 @@ router.post("/login", async (req, res) => {
       lastFailedAt: null,
     });
 
+    const token = jwt.sign(
+      { id: user._id},
+      process.env.JWT_SECRET,
+      { expiresIn: "1d"}
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // false on local host
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000, // for 1 day
+    });
+
     return res.status(200).json({
       message: "Login successful!",
       user: {
@@ -252,4 +266,30 @@ router.delete("/users/:id", async (req, res) => {
     return res.status(500).json({ message: "Server error." });
   }
 });
+
+// Get current logged-in user
+const requireAuth = require('../middleware/auth');
+
+router.get('/me', requireAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    return res.status(200).json({ user });
+  } catch (err) {
+    return res.status(500).json({ message: 'Server error.' });
+  }
+});
+
+// Logout
+router.post('/logout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+  });
+  return res.status(200).json({ message: 'Logged out successfully.' });
+});
+
 module.exports = router;

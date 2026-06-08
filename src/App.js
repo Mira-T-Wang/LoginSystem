@@ -7,27 +7,38 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  //check if a user was saved before 
+  // Check if user is logged in via cookie
   useEffect(() => {
-    const savedUser = localStorage.getItem("loggedInUser");
-    if (savedUser) {
-      setLoggedInUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    fetch("http://localhost:5000/api/auth/me", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return null;
+      })
+      .then((data) => {
+        if (data?.user) setLoggedInUser(data.user);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-const handleLoginSuccess = (user) => {
-    localStorage.setItem("loggedInUser", JSON.stringify(user));
+  const handleLoginSuccess = (user) => {
     setLoggedInUser(user);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("loggedInUser");
+  //logout 
+  const handleLogout = async () => {
+    await fetch("http://localhost:5000/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
     setLoggedInUser(null);
   };
+
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
     <Routes>
       <Route
