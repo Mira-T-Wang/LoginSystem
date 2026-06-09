@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
+const requireAuth = require('../middleware/auth');
 router.post("/register", async (req, res) => {
   const { email, password } = req.body;
 
@@ -268,7 +269,6 @@ router.delete("/users/:id", async (req, res) => {
 });
 
 // Get current logged-in user
-const requireAuth = require('../middleware/auth');
 
 router.get('/me', requireAuth, async (req, res) => {
   try {
@@ -292,4 +292,16 @@ router.post('/logout', (req, res) => {
   return res.status(200).json({ message: 'Logged out successfully.' });
 });
 
+// Get current user plan
+router.get('/plan', requireAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('plan email');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    return res.status(200).json({ plan: user.plan, email: user.email });
+  } catch (err) {
+    return res.status(500).json({ message: 'Server error.' });
+  }
+});
 module.exports = router;
