@@ -12,11 +12,15 @@ router.get("/", async (req, res) => {
   try {
 
     // check redis first 
-     const cached = await redis.get(CACHE_KEY);
-    if (cached) {
-      console.log("Stats served from Redis cache");
-      return res.status(200).json(JSON.parse(cached));
-    }
+     try {
+  const cached = await redis.get(CACHE_KEY);
+  if (cached) {
+    console.log("Stats served from Redis cache");
+    return res.status(200).json(JSON.parse(cached));
+  }
+  } catch (redisErr) {
+  console.warn("Redis read failed, falling back to MongoDB:", redisErr.message);
+  }
 
     console.log("Stats cache miss — querying MongoDB");
     
@@ -66,7 +70,11 @@ router.get("/", async (req, res) => {
     };
 
     // store in redis to check next time 
-    await redis.set(CACHE_KEY,JSON.stringify(responseData),"EX",CACHE_TTL);//saves result
+    try {
+      await redis.set(CACHE_KEY, JSON.stringify(responseData), "EX", CACHE_TTL);
+      } catch (redisErr) {
+      console.warn("Redis write failed, continuing without cache:", redisErr.message);
+      }
     return res.status(200).json(responseData);
   } catch (err) {
     console.error("Stats error:", err.message);
