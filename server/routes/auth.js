@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
 const requireAuth = require('../middleware/auth');
+const redis = require ('../db/redis');
 router.post("/register", async (req, res) => {
   const { email, password } = req.body;
 
@@ -283,7 +284,19 @@ router.get('/me', requireAuth, async (req, res) => {
 });
 
 // Logout
-router.post('/logout', (req, res) => {
+router.post('/logout', async (req, res) => {
+  const token = req.cookies.token;
+
+  if (token) {
+    try {
+      const decoded = jwt.decode(token);
+      const expiresIn = decoded?.exp ? decoded.exp - Math.floor(Date.now() / 1000) : 86400;
+      await redis.set(`denylist:${token}`, '1', 'EX', expiresIn);
+    } catch (redisErr) {
+      console.warn('Redis denylist write failed:', redisErr.message);
+    }
+  }
+
   res.clearCookie('token', {
     httpOnly: true,
     secure: false,
