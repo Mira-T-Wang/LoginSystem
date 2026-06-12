@@ -4,7 +4,7 @@ const redis = new Redis(
         host: "127.0.0.1",
         port: 6379,
          maxRetriesPerRequest: 1,
-        retryStrategy: () => null,
+        retryStrategy: (times) => Math.min(times * 500, 2000),
     }
 );
 redis.on("connect", ()=> {
