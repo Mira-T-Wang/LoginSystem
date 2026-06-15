@@ -28,7 +28,13 @@ const userSchema = new mongoose.Schema({
     type:String,
     enum:["free","pro"],
     default:"free",
-  }
+  },
+  notificationPreferences:{
+    lowStock:{type:Boolean, default:true},
+    newUsers:{type:Boolean, default:true},
+    systemUpdates:{type:Boolean, default:false},
+    weeklyReport:{type:Boolean, default:true},
+  },
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

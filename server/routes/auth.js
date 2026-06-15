@@ -317,4 +317,31 @@ router.get('/plan', requireAuth, async (req, res) => {
     return res.status(500).json({ message: 'Server error.' });
   }
 });
+
+//get notification preferences
+router.get('/notifications',requireAuth,async (req,res) => {
+  try {
+  const user = await User.findById(req.user.id).select('notificationPreferences');
+  if(!user) return res.status(404).json({message:'User not found.'});
+  return res.status(200).json(user.notificationPreferences);
+  } catch (error) {
+    return res.status(500).json({message:'Server error'});
+  }
+});
+
+// Update notification preferences
+router.put('/notifications', requireAuth, async (req, res) => {
+  try {
+    const { lowStock, newUsers, systemUpdates, weeklyReport } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { notificationPreferences: { lowStock, newUsers, systemUpdates, weeklyReport } },
+      { new: true, select: 'notificationPreferences' }
+    );
+    return res.status(200).json(user.notificationPreferences);
+  } catch (err) {
+    return res.status(500).json({ message: 'Server error.' });
+  }
+});
+
 module.exports = router;
