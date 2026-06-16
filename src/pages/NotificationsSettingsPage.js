@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "../styles/settings.css";
 
 function NotificationsSettingsPage() {
@@ -10,20 +10,33 @@ function NotificationsSettingsPage() {
     weeklyReport: true,
   });
 
+  const [loading, setLoading]=useState(true);
+    useEffect(() => {
+    fetch("http://localhost:5000/api/auth/notifications", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => setNotifications(data))
+      .finally(() => setLoading(false));
+  }, []);
+
   const handleToggle = (key) => {
-    setNotifications((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
+    setNotifications((prev) => {
+      const updated = { ...prev, [key]: !prev[key] };
+
+      fetch("http://localhost:5000/api/auth/notifications", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(updated),
+      });
+
+      return updated;
+    });
   };
 
   const notificationItems = [
-    /*{
-      key: "newOrders",
-      label: "New Orders",
-      description: "Get notified when a new order is placed",
-     // icon: "🛒",
-    },*/
+    
     {
       key: "lowStock",
       label: "Low Stock Alerts",
@@ -52,8 +65,10 @@ function NotificationsSettingsPage() {
 
   const enabledCount = Object.values(notifications).filter(Boolean).length;
 
+  if (loading) return <p className="dashboard-loading">Loading notification settings...</p>;
+
   return (
-    <div className="settings-page">
+    <div className="settings-page">   
       <h2 className="settings-title">Notifications</h2>
       <p className="settings-subtitle">
         {enabledCount} of {notificationItems.length} notifications enabled
