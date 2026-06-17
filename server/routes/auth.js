@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
+const shouldNotify = require("../utils/notificationPreferences");
 const requireAuth = require('../middleware/auth');
 const redis = require ('../db/redis');
 router.post("/register", async (req, res) => {
@@ -27,13 +28,15 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
 
-await Notification.create({
-  type: "new_user",
-  title: "New User Registered",
-  message: `${newUser.email} has created a new account.`,
-  //icon: "👥",
-  relatedId: newUser._id,
-});
+if (await shouldNotify('newUsers')) {
+  await Notification.create({
+    type: "new_user",
+    title: "New User Registered",
+    message: `${newUser.email} has created a new account.`,
+    //icon: "👥",
+    relatedId: newUser._id,
+  });
+}
 
 return res.status(201).json({
   message: "Account created successfully!",
@@ -332,10 +335,10 @@ router.get('/notifications',requireAuth,async (req,res) => {
 // Update notification preferences
 router.put('/notifications', requireAuth, async (req, res) => {
   try {
-    const { lowStock, newUsers, systemUpdates, weeklyReport } = req.body;
+    const { newOrders, lowStock, newUsers, systemUpdates, weeklyReport } = req.body;
     const user = await User.findByIdAndUpdate(
       req.user.id,
-      { notificationPreferences: { lowStock, newUsers, systemUpdates, weeklyReport } },
+      { notificationPreferences: { newOrders, lowStock, newUsers, systemUpdates, weeklyReport } },
       { new: true, select: 'notificationPreferences' }
     );
     return res.status(200).json(user.notificationPreferences);

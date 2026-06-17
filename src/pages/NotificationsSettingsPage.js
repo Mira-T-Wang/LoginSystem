@@ -36,7 +36,12 @@ function NotificationsSettingsPage() {
   };
 
   const notificationItems = [
-    
+
+     {
+      key: "newOrders",
+      label: "New Orders",
+      description: "Get notified when a new order is placed",
+    }, 
     {
       key: "lowStock",
       label: "Low Stock Alerts",

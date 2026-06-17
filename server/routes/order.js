@@ -4,6 +4,7 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const Notification = require("../models/Notification");
 const DailySales = require("../models/DailySales");
+const shouldNotify = require("../utils/notificationPreferences");
 
 router.get("/", async (req, res) => {
   try {
@@ -109,37 +110,44 @@ router.post("/", async (req, res) => {
               { $inc: { quantity: -item.quantity } },
               { returnDocument: "after" }
             ).then(async (updatedProduct) => {
-              if (
-                updatedProduct.quantity <= 3 &&
-                updatedProduct.quantity > 0
-              ) {
-                await Notification.create({
-                  type: "low_stock",
-                  title: "Low Stock Alert",
-                  message: `${updatedProduct.name} is running low — only ${updatedProduct.quantity} left in stock.`,
-                  icon: "📦",
-                  relatedId: updatedProduct._id,
-                });
-              }
-              if (updatedProduct.quantity === 0) {
-                await Notification.create({
-                  type: "low_stock",
-                  title: "Out of Stock",
-                  message: `${updatedProduct.name} is now out of stock.`,
-                  icon: "⚠️",
-                  relatedId: updatedProduct._id,
-                });
-              }
+              const lowStockEnabled = await shouldNotify('lowStock');
+
+if (
+  lowStockEnabled &&
+  updatedProduct.quantity <= 3 &&
+  updatedProduct.quantity > 0
+) {
+  await Notification.create({
+    type: "low_stock",
+    title: "Low Stock Alert",
+    message: `${updatedProduct.name} is running low — only ${updatedProduct.quantity} left in stock.`,
+    //icon: "📦",
+    relatedId: updatedProduct._id,
+  });
+}
+if (lowStockEnabled && updatedProduct.quantity === 0) {
+  await Notification.create({
+    type: "low_stock",
+    title: "Out of Stock",
+    message: `${updatedProduct.name} is now out of stock.`,
+    //icon: "⚠️",
+    relatedId: updatedProduct._id,
+  });
+}
             })
           ),
 
-          Notification.create({
-            type: "order",
-            title: "New Order Placed",
-            message: `A new order of $${subtotal.toFixed(2)} has been placed successfully.`,
-            icon: "🛒",
-            relatedId: order._id,
-          }),
+          (async () => {
+  if (await shouldNotify('newOrders')) {
+    await Notification.create({
+      type: "order",
+      title: "New Order Placed",
+      message: `A new order of $${subtotal.toFixed(2)} has been placed successfully.`,
+      //icon: "🛒",
+      relatedId: order._id,
+    });
+  }
+})(),
 
           // DailySales upsert
           DailySales.findOneAndUpdate(
