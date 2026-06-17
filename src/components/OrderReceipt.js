@@ -22,14 +22,14 @@ function OrderReceipt({
     submittingRef.current = true;
     setLoading(true);
 
-    const idempotencyKey = `${currentUser.id}-${Date.now()}`;
+    const idempotencyKey = `${currentUser._id}-${Date.now()}`;
 
     try {
       const response = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          orderedBy: currentUser.id,
+          orderedBy: currentUser._id,
           items: orderItems,
           idempotencyKey,
         }),

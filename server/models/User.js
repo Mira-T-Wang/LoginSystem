@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema({
     default:"free",
   },
   notificationPreferences:{
+    newOrders:{type:Boolean, deafult:true},
     lowStock:{type:Boolean, default:true},
     newUsers:{type:Boolean, default:true},
     systemUpdates:{type:Boolean, default:false},
