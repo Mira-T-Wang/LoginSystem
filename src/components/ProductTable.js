@@ -44,7 +44,7 @@ function ProductTable({ products, categories, currentUser, onRefresh }) {
         </button>
       </div>
 
-      <table className="user-table">
+      <table className="user-table product-table">
         <thead>
           <th>ID</th>
           <th>Image</th>

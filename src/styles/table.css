@@ -142,18 +142,62 @@
   border-radius: 16px;
   border: 1px solid rgba(79, 70, 229, 0.2);
 }
-.user-table th:nth-child(1),
-.user-table td:nth-child(1) {
+.product-table th:nth-child(1),
+.product-table td:nth-child(1) {
   width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.user-table th:nth-child(2),
-.user-table td:nth-child(2) {
-  width: 200px;
+.product-table th:nth-child(2),
+.product-table td:nth-child(2) {
+  width: 70px;
+  overflow: hidden;
+}
+
+.product-table th:nth-child(3),
+.product-table td:nth-child(3) {
+  width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.product-table th:nth-child(4),
+.product-table td:nth-child(4) {
+  width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-table th:nth-child(5),
+.product-table td:nth-child(5) {
+  width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-table th:nth-child(6),
+.product-table td:nth-child(6) {
+  width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-table th:nth-child(7),
+.product-table td:nth-child(7) {
+  width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-table th:nth-child(8),
+.product-table td:nth-child(8) {
+  width: 160px;
+  overflow: hidden;
 }
