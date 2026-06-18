@@ -48,7 +48,7 @@ function UserTable({ users, currentUser, onRefresh, onUserUpdate, onLogout }) {
         </button>
       </div>
 
-      <table className="user-table">
+      <table className="user-table product-table">
         <thead>
           <tr>
             <th>ID</th>
