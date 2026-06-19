@@ -51,6 +51,15 @@ router.get("/", async (req, res) => {
       date: { $in: last7Days },
     }).lean();
 
+    const todayStr = new Date().toISOString().split("T")[0];
+    const todayDoc = salesDocs.find((doc) => doc.date === todayStr);
+
+    const todaySales = {
+    revenue: todayDoc ? todayDoc.revenue : 0,
+    orderCount: todayDoc ? todayDoc.orderCount : 0,
+    itemsSold: todayDoc ? todayDoc.itemsSold : 0
+  };
+
     const graphData = last7Days.map((dateStr) => {
       const found = salesDocs.find((doc) => doc.date === dateStr);
       return {
@@ -66,6 +75,7 @@ router.get("/", async (req, res) => {
       totalUsers,
       soldProducts,
       totalRevenue,
+      todaySales,
       graphData,
     };
 
