@@ -72,6 +72,11 @@ function DashboardHomePage({ user }) {
           //icon="💰"
           type="revenue"
         />
+        <StatCard
+          label="Today's Revenue"
+          value={`$${stats.todaySales.revenue.toFixed(2)}`}
+          type="todayRevenue"
+         />
       </div>
 
       <SalesGraph graphData={stats.graphData} />
